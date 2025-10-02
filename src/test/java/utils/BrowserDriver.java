@@ -29,11 +29,17 @@ public class BrowserDriver {
         return THREAD_DRIVER.get();
     }
 
+    private static boolean keepBrowserOpen = true;
+
     public static void quitBrowser() {
         WebDriver driver = THREAD_DRIVER.get();
-        if (driver != null) {
+        if (driver != null && !keepBrowserOpen) {
             try { driver.quit(); } catch (Exception ignored) {}
             THREAD_DRIVER.remove();
         }
+    }
+
+    public static void setKeepBrowserOpen(boolean keepOpen) {
+        keepBrowserOpen = keepOpen;
     }
 }
