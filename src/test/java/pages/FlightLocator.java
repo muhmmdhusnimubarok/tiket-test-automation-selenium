@@ -28,6 +28,7 @@ public class FlightLocator {
     private final By flightCalendarLocator = By.xpath("//p[normalize-space()='Pergi']");
     private final By flightCalendarMonthLocator = By.xpath("//div[contains(@class,'CalendarDesktop_month_heading_container')]/h2");
     private final By flightCalendarNextButtonLocator = By.xpath("//button[@aria-label='Bulan berikutnya']");
+    private final By roundTripBtnLocator = By.cssSelector("div.Toggle_knob__PZRcL");
     private final By passengerFormLocator = By.xpath("//span[contains(text(),'Penumpang')]");
     private final By quantityButtonLocator = By.xpath("//button[contains(@class,'QuantityEditor_operation_button')]");
     private final By economyClassLocator = By.xpath("//button[span[normalize-space()='Ekonomi']]");
@@ -39,7 +40,7 @@ public class FlightLocator {
     private final By flightCardLocator = By.xpath("//div[@data-testid='srp-flight-card']");
     private final By fareCardLocator = By.xpath("//button[normalize-space()='Pilih']");
     private final By nggakDuluDehLocator = By.xpath("//button[@data-testid='popup-button-secondary']");
-    private final By extraProtectionButton = By.cssSelector("button[data-testid='btn-add']");
+    private final By extraProtectionButtonLocator = By.cssSelector("button[data-testid='btn-add']");
     private final By radioBtnTuanLocator = By.xpath("//span[normalize-space()='Tuan']");
     private final By radioBtnNyonyaLocator = By.xpath("//span[normalize-space()='Nyonya']");
     private final By radioBtnNonaLocator = By.xpath("//span[normalize-space()='Nona']");
@@ -49,26 +50,40 @@ public class FlightLocator {
     private final By namaDepanFieldPenumpangLocator = By.xpath("//input[@id='nama-depan--nama-tengah']");
     private final By namaBelakangFieldPenumpangLocator = By.xpath("//input[@id='nama-keluarganama-belakang']");
     private final By birthFormLocator = By.id("tanggal-lahir");
-    private final By samaDenganPemesanBtnLocator = By.cssSelector("input[type='checkbox']");
+    private final By samaDenganPemesanBtnLocator = By.cssSelector("div.Toggle_toggle__EuMnT");
+    private final By lanjutBayarBtnLocator = By.xpath("//button[normalize-space()='Lanjut Bayar']");
+    private final By bcaVirtualAccountLocator = By.xpath("//span[normalize-space()='BCA Virtual Account']");
+    private final By monthsMenuLocator = By.cssSelector(".Navigation_month_menu_button__AWr8E");
+    private final By yearsMenuLocator = By.cssSelector(".Navigation_year_menu_button__hHa3K");
+    private final By simpanBtnLocator = By.xpath("//button[normalize-space()='Simpan']");
+    private final By kewarganegaraanFormLocator = By.cssSelector("button.styles_clickable_icon__Gfbs_");
+    private final By negaraPilihanLocator = By.xpath("//p[normalize-space(text())='Indonesia']");
+    private final By popupLanjutKePembayaranLocator = By.xpath("//div[contains(@class, 'Dialog_pop_up')]");
+    private final By lanjutKePembayaranBtnLocator = By.xpath("//button[normalize-space()='Lanjut ke pembayaran']");
 
-    private static final int IDX_DECREASE_ADULT = 0;
-    private static final int IDX_INCREASE_ADULT = 1;
-    private static final int IDX_DECREASE_CHILD = 2;
-    private static final int IDX_INCREASE_CHILD = 3;
-    private static final int IDX_DECREASE_INFANT = 4;
-    private static final int IDX_INCREASE_INFANT = 5;
 
-    private static final int IDX_FLIGHT_CARD_1 = 0;
-    private static final int IDX_FLIGHT_CARD_2 = 1;
-    private static final int IDX_FLIGHT_CARD_3 = 2;
-    private static final int IDX_FLIGHT_CARD_4 = 3;
-    private static final int IDX_FLIGHT_CARD_5 = 4;
-    private static final int IDX_FLIGHT_CARD_6 = 5;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy EEEE", new Locale("id", "ID"));
+    private static final DateTimeFormatter headerFormat = DateTimeFormatter.ofPattern("MMMM yyyy", new Locale("id", "ID"));
 
-    private static final int IDX_EXP_BUTTON_1 = 0;
-    private static final int IDX_EXP_BUTTON_2 = 1;
-    private static final int IDX_EXP_BUTTON_3 = 2;
-    private static final int IDX_EXP_BUTTON_4 = 3;
+
+    private static final int DECREASE_ADULT = 0;
+    private static final int INCREASE_ADULT = 1;
+    private static final int DECREASE_CHILD = 2;
+    private static final int INCREASE_CHILD = 3;
+    private static final int DECREASE_INFANT = 4;
+    private static final int INCREASE_INFANT = 5;
+
+    private static final int FLIGHT_CARD_1 = 0;
+    private static final int FLIGHT_CARD_2 = 1;
+    private static final int FLIGHT_CARD_3 = 2;
+    private static final int FLIGHT_CARD_4 = 3;
+    private static final int FLIGHT_CARD_5 = 4;
+    private static final int FLIGHT_CARD_6 = 5;
+
+    private static final int EXP_BUTTON_1 = 0;
+    private static final int EXP_BUTTON_2 = 1;
+    private static final int EXP_BUTTON_3 = 2;
+    private static final int EXP_BUTTON_4 = 3;
 
     private static final int TUAN_RADIOBTN_1 = 0;
     private static final int TUAN_RADIOBTN_2 = 1;
@@ -97,6 +112,10 @@ public class FlightLocator {
     private static final int NONA_RADIOBTN_7 = 6;
     private static final int NONA_RADIOBTN_8 = 7;
 
+    private static final int LANJUT_BAYARBTN_1 = 0;
+    private static final int LANJUT_BAYARBTN_2 = 1;
+
+
 
 
     public FlightLocator(WebDriver driver) {
@@ -117,17 +136,17 @@ public class FlightLocator {
         } catch (InterruptedException Ignored) { Thread.currentThread().interrupt(); }
     }
 
-    public void type(By locator, String text) {
+    private void type(By locator, String text) {
         WebElement el = waitForClickable(locator);
         el.clear();
         el.sendKeys(text);
     }
 
-    public String getText(By locator) {
+    private String getText(By locator) {
         return waitForVisible(locator).getText();
     }
 
-    public boolean isVisible(By locator) {
+    private boolean isVisible(By locator) {
         try {
             return waitForVisible(locator).isDisplayed();
         } catch (Exception e) {
@@ -135,106 +154,167 @@ public class FlightLocator {
         }
     }
 
-    public void addPassengerAdult() { clickQuantityButton(IDX_INCREASE_ADULT); }
-    public void addPassengerChild() { clickQuantityButton(IDX_INCREASE_CHILD); }
-    public void addPassengerInfant() { clickQuantityButton(IDX_INCREASE_INFANT); }
-    public void decreasePassengerAdult() { clickQuantityButton(IDX_DECREASE_ADULT); }
-    public void decreasePassengerChild() { clickQuantityButton(IDX_DECREASE_CHILD); }
-    public void decreasePassengerInfant() { clickQuantityButton(IDX_DECREASE_INFANT); }
+    private void scrollToElement(By locator) {
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true)", element);
+    }
 
-    public void flightCard1() { clickFlightCard(IDX_FLIGHT_CARD_1); }
-    public void flightCard2() { clickFlightCard(IDX_FLIGHT_CARD_2); }
-    public void flightCard3() { clickFlightCard(IDX_FLIGHT_CARD_3); }
-    public void flightCard4() { clickFlightCard(IDX_FLIGHT_CARD_4); }
-    public void flightCard5() { clickFlightCard(IDX_FLIGHT_CARD_5); }
-    public void flightCard6() { clickFlightCard(IDX_FLIGHT_CARD_6); }
 
-    public void expButton1() { clickExpButton(IDX_EXP_BUTTON_1); }
-    public void expButton2() { clickExpButton(IDX_EXP_BUTTON_2); }
-    public void expButton3() { clickExpButton(IDX_EXP_BUTTON_3); }
-    public void expButton4() { clickExpButton(IDX_EXP_BUTTON_4); }
 
-    public void radioBtnTuan1() { clickRadioBtnTuan(TUAN_RADIOBTN_1); }
-    public void radioBtnTuan2() { clickRadioBtnTuan(TUAN_RADIOBTN_2); }
-    public void radioBtnTuan3() { clickRadioBtnTuan(TUAN_RADIOBTN_3); }
-    public void radioBtnTuan4() { clickRadioBtnTuan(TUAN_RADIOBTN_4); }
-    public void radioBtnTuan5() { clickRadioBtnTuan(TUAN_RADIOBTN_5); }
-    public void radioBtnTuan6() { clickRadioBtnTuan(TUAN_RADIOBTN_6); }
-    public void radioBtnTuan7() { clickRadioBtnTuan(TUAN_RADIOBTN_7); }
-    public void radioBtnTuan8() { clickRadioBtnTuan(TUAN_RADIOBTN_8); }
 
-    public void radioBtnNyonya1() { clickRadioBtnNyonya(NYONYA_RADIOBTN_1); }
-    public void radioBtnNyonya2() { clickRadioBtnNyonya(NYONYA_RADIOBTN_2); }
-    public void radioBtnNyonya3() { clickRadioBtnNyonya(NYONYA_RADIOBTN_3); }
-    public void radioBtnNyonya4() { clickRadioBtnNyonya(NYONYA_RADIOBTN_4); }
-    public void radioBtnNyonya5() { clickRadioBtnNyonya(NYONYA_RADIOBTN_5); }
-    public void radioBtnNyonya6() { clickRadioBtnNyonya(NYONYA_RADIOBTN_6); }
-    public void radioBtnNyonya7() { clickRadioBtnNyonya(NYONYA_RADIOBTN_7); }
-    public void radioBtnNyonya8() { clickRadioBtnNyonya(NYONYA_RADIOBTN_8); }
+    private void addPassengerAdult() { clickQuantityButton(INCREASE_ADULT); }
+    private void addPassengerChild() { clickQuantityButton(INCREASE_CHILD); }
+    private void addPassengerInfant() { clickQuantityButton(INCREASE_INFANT); }
+    private void decreasePassengerAdult() { clickQuantityButton(DECREASE_ADULT); }
+    private void decreasePassengerChild() { clickQuantityButton(DECREASE_CHILD); }
+    private void decreasePassengerInfant() { clickQuantityButton(DECREASE_INFANT); }
 
-    public void radioBtnNona1() { clickRadioBtnNona(NONA_RADIOBTN_1); }
-    public void radioBtnNona2() { clickRadioBtnNona(NONA_RADIOBTN_2); }
-    public void radioBtnNona3() { clickRadioBtnNona(NONA_RADIOBTN_3); }
-    public void radioBtnNona4() { clickRadioBtnNona(NONA_RADIOBTN_4); }
-    public void radioBtnNona5() { clickRadioBtnNona(NONA_RADIOBTN_5); }
-    public void radioBtnNona6() { clickRadioBtnNona(NONA_RADIOBTN_6); }
-    public void radioBtnNona7() { clickRadioBtnNona(NONA_RADIOBTN_7); }
-    public void radioBtnNona8() { clickRadioBtnNona(NONA_RADIOBTN_8); }
+    private void flightCard1() { clickFlightCard(FLIGHT_CARD_1); }
+    private void flightCard2() { clickFlightCard(FLIGHT_CARD_2); }
+    private void flightCard3() { clickFlightCard(FLIGHT_CARD_3); }
+    private void flightCard4() { clickFlightCard(FLIGHT_CARD_4); }
+    private void flightCard5() { clickFlightCard(FLIGHT_CARD_5); }
+    private void flightCard6() { clickFlightCard(FLIGHT_CARD_6); }
+
+    private void expButton1() { clickExpButton(EXP_BUTTON_1); }
+    private void expButton2() { clickExpButton(EXP_BUTTON_2); }
+    private void expButton3() { clickExpButton(EXP_BUTTON_3); }
+    private void expButton4() { clickExpButton(EXP_BUTTON_4); }
+
+    private void radioBtnTuan1() { clickRadioBtnTuan(TUAN_RADIOBTN_1); }
+    private void radioBtnTuan2() { clickRadioBtnTuan(TUAN_RADIOBTN_2); }
+    private void radioBtnTuan3() { clickRadioBtnTuan(TUAN_RADIOBTN_3); }
+    private void radioBtnTuan4() { clickRadioBtnTuan(TUAN_RADIOBTN_4); }
+    private void radioBtnTuan5() { clickRadioBtnTuan(TUAN_RADIOBTN_5); }
+    private void radioBtnTuan6() { clickRadioBtnTuan(TUAN_RADIOBTN_6); }
+    private void radioBtnTuan7() { clickRadioBtnTuan(TUAN_RADIOBTN_7); }
+    private void radioBtnTuan8() { clickRadioBtnTuan(TUAN_RADIOBTN_8); }
+
+    private void radioBtnNyonya1() { clickRadioBtnNyonya(NYONYA_RADIOBTN_1); }
+    private void radioBtnNyonya2() { clickRadioBtnNyonya(NYONYA_RADIOBTN_2); }
+    private void radioBtnNyonya3() { clickRadioBtnNyonya(NYONYA_RADIOBTN_3); }
+    private void radioBtnNyonya4() { clickRadioBtnNyonya(NYONYA_RADIOBTN_4); }
+    private void radioBtnNyonya5() { clickRadioBtnNyonya(NYONYA_RADIOBTN_5); }
+    private void radioBtnNyonya6() { clickRadioBtnNyonya(NYONYA_RADIOBTN_6); }
+    private void radioBtnNyonya7() { clickRadioBtnNyonya(NYONYA_RADIOBTN_7); }
+    private void radioBtnNyonya8() { clickRadioBtnNyonya(NYONYA_RADIOBTN_8); }
+
+    private void radioBtnNona1() { clickRadioBtnNona(NONA_RADIOBTN_1); }
+    private void radioBtnNona2() { clickRadioBtnNona(NONA_RADIOBTN_2); }
+    private void radioBtnNona3() { clickRadioBtnNona(NONA_RADIOBTN_3); }
+    private void radioBtnNona4() { clickRadioBtnNona(NONA_RADIOBTN_4); }
+    private void radioBtnNona5() { clickRadioBtnNona(NONA_RADIOBTN_5); }
+    private void radioBtnNona6() { clickRadioBtnNona(NONA_RADIOBTN_6); }
+    private void radioBtnNona7() { clickRadioBtnNona(NONA_RADIOBTN_7); }
+    private void radioBtnNona8() { clickRadioBtnNona(NONA_RADIOBTN_8); }
+
+    private void expBtn1() { clickExpButton(EXP_BUTTON_1); }
+    private void expBtn2() { clickExpButton(EXP_BUTTON_2); }
+    private void expBtn3() { clickExpButton(EXP_BUTTON_3); }
+    private void expBtn4() { clickExpButton(EXP_BUTTON_4); }
+
+
 
 
     public void clickFlightMenu() {
         waitForClickable(flightMenuLocator).click();
     }
 
-    public void clickDestinationField() {
+    private void clickDestinationField() {
         waitForClickable(destinationFieldLocator).click();
     }
 
-    public void clickDepartureField() {
+    private void clickDepartureField() {
         waitForClickable(departureFieldLocator).click();
     }
 
-    public void clickFlightCalendar() {
+    private void clickFlightCalendar() {
         waitForClickable(flightCalendarLocator).click();
     }
 
-    public void clickPassengerForm() {
+    private void clickPassengerForm() {
         waitForClickable(passengerFormLocator).click();
     }
 
-    public void clickNameFieldPemesan() {
+    private void clickNameFieldPemesan() {
         waitForClickable(nameFieldPemesanLocator).click();
     }
 
-    public void clickEmailFieldPemesan() {
+    private void clickEmailFieldPemesan() {
         waitForClickable(emailFieldLocator).click();
     }
 
-    public void selectFareCard() {
+    private void selectFareCard() {
         waitForClickable(fareCardLocator).click();
     }
 
-    public void clickNggaDulu() {
+    private void clickSimpanBtn() {
+        waitForClickable(simpanBtnLocator).click();
+        sleep(1000);
+    }
+
+    private void clickNggaDulu() {
         waitForClickable(nggakDuluDehLocator).click();
     }
 
-    public void namaPemesan(String nama) {
+    private void namaPemesan(String nama) {
         type(nameFieldPemesanLocator, nama);
     }
 
-    public void noTlpPemesan(String noTlp) {
+    private void noTlpPemesan(String noTlp) {
         type(tlpFieldPemesanLocator, noTlp);
     }
 
-    public void emailPemesan(String email) {
+    private void emailPemesan(String email) {
         type(emailFieldLocator, email);
     }
 
-    public void clickSamaDgnPemesan() {
+
+    private void scrollSamaDgnPemesan() {
+        WebElement samaDenganPemesanBtn =  wait.until(ExpectedConditions.presenceOfElementLocated(samaDenganPemesanBtnLocator));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", samaDenganPemesanBtn);
+        sleep(500);
+    }
+
+    private void clickbirthForm1() {
+        List<WebElement> birthFormList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(birthFormLocator));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", birthFormList.get(0));
+        sleep(500);
+        birthFormList.get(0).click();
+    }
+
+    private void clickSamaDgnPemesanBtn() {
         waitForClickable(samaDenganPemesanBtnLocator).click();
     }
 
-    public void clicknamaDepanFieldPenumpang(int index) {
+
+    private void clickBulanLahir1() {
+        waitForClickable(monthsMenuLocator).click();
+        WebElement bulanLahirContainer1 = driver.findElement(By.cssSelector("section.month-year-menus_menu__HPgiS"));
+        WebElement bulanLahir1 = bulanLahirContainer1.findElement(By.xpath("//button[normalize-space()='Mei']"));
+        bulanLahir1.click();
+    }
+
+    private void clickTahunLahir1() {
+        waitForClickable(yearsMenuLocator).click();
+        WebElement tahunLahirContainer1 = driver.findElement(By.cssSelector("section.month-year-menus_menu__HPgiS"));
+        WebElement tahunLahir1 = tahunLahirContainer1.findElement(By.xpath("//button[text()='2002']"));
+        tahunLahir1.click();
+    }
+
+    private void clickTanggalLahir1() {
+        WebElement tanggalLahirContainer1 = driver.findElement(By.cssSelector("section.DatePickerDesktop_content_container__icOYA"));
+        WebElement tanggalLahir1 = tanggalLahirContainer1.findElement(By.xpath("//span[normalize-space()='23']"));
+        tanggalLahir1.click();
+    }
+
+    private void scrollAsuransiBtn() {
+        List<WebElement> expBtnList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(extraProtectionButtonLocator));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", expBtnList.get(0));
+        sleep(1500);
+    }
+
+    private void clicknamaDepanFieldPenumpang(int index) {
         List<WebElement> namaDepanFieldPenumpangList = driver.findElements(namaDepanFieldPenumpangLocator);
         if (namaDepanFieldPenumpangList.size() > index) {
             try {
@@ -245,7 +325,7 @@ public class FlightLocator {
         }
     }
 
-    public void clickQuantityButton(int index) {
+    private void clickQuantityButton(int index) {
         List<WebElement> quantityButtons = driver.findElements(quantityButtonLocator);
         if (quantityButtons.size() > index) {
             try {
@@ -256,7 +336,7 @@ public class FlightLocator {
         }
     }
 
-    public void clickFlightCard(int index) {
+    private void clickFlightCard(int index) {
         List<WebElement> flightCards = driver.findElements(flightCardLocator);
         if (flightCards.size() > index) {
             try {
@@ -267,8 +347,8 @@ public class FlightLocator {
         }
     }
 
-    public void clickExpButton(int index) {
-        List<WebElement> expButtons = driver.findElements(extraProtectionButton);
+    private void clickExpButton(int index) {
+        List<WebElement> expButtons = driver.findElements(extraProtectionButtonLocator);
         if (expButtons.size() > index) {
             try {
                 expButtons.get(index).click();
@@ -278,18 +358,7 @@ public class FlightLocator {
         }
     }
 
-    public void clickRadioBtnTuan(int index) {
-        List<WebElement> tuanButtons = driver.findElements(radioBtnTuanLocator);
-        if (tuanButtons.size() > index) {
-            try {
-                tuanButtons.get(index).click();
-            } catch (Exception e) {
-                throw new RuntimeException();
-            }
-        }
-    }
-
-    public void clickRadioBtnNyonya(int index) {
+    private void clickRadioBtnNyonya(int index) {
         List<WebElement> tuanButtons = driver.findElements(radioBtnNyonyaLocator);
         if (tuanButtons.size() > index) {
             try {
@@ -300,7 +369,18 @@ public class FlightLocator {
         }
     }
 
-    public void clickRadioBtnNona(int index) {
+    private void clickRadioBtnTuan(int index) {
+        List<WebElement> tuanButtons = driver.findElements(radioBtnTuanLocator);
+        if (tuanButtons.size() > index) {
+            try {
+                tuanButtons.get(index).click();
+            } catch (Exception e) {
+                throw new RuntimeException();
+            }
+        }
+    }
+
+    private void clickRadioBtnNona(int index) {
         List<WebElement> tuanButtons = driver.findElements(radioBtnNonaLocator);
         if (tuanButtons.size() > index) {
             try {
@@ -311,6 +391,28 @@ public class FlightLocator {
         }
     }
 
+    private void scrollLanjutBayarBtn() {
+        WebElement lanjutBayarBtn = wait.until(ExpectedConditions.presenceOfElementLocated(lanjutBayarBtnLocator));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);",lanjutBayarBtn );
+        sleep(1000);
+
+    }
+
+    private void clickLanjutBayarBtn() {
+        WebElement lanjutBayarBtn1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[normalize-space()='Lanjut Bayar'])[1]")));
+        lanjutBayarBtn1.click();
+        sleep(1000);
+
+        WebElement lanjutBayarBtn2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[normalize-space()='Lanjut Bayar'])[2]")));
+        lanjutBayarBtn2.click();
+        sleep(3000);
+    }
+
+    private void clickLanjutKePembayaranBtn() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(popupLanjutKePembayaranLocator));
+        WebElement lanjutKePembayaranBtn = wait.until(ExpectedConditions.elementToBeClickable(lanjutKePembayaranBtnLocator));
+        lanjutKePembayaranBtn.click();
+    }
 
     private void selectFirstAirportMatch(String text) {
         String lower = text.toLowerCase(Locale.ROOT).replace("\"","\\\"");
@@ -331,6 +433,40 @@ public class FlightLocator {
         }
     }
 
+    private void selectSingleDate(LocalDate targetDate) {
+        while (true) {
+            String headerText = waitForVisible(flightCalendarMonthLocator).getText().trim();
+            LocalDate headerDate = YearMonth.parse(headerText, headerFormat).atDay(1);
+
+            if (headerDate.getYear() == targetDate.getYear() &&
+                headerDate.getMonth() == targetDate.getMonth()) {
+                break;
+            }
+            waitForClickable(flightCalendarNextButtonLocator).click();
+            sleep(500);
+        }
+        String fullDateText = targetDate.format(formatter);
+        By dayLocator = By.xpath("//span[@aria-label='" + fullDateText + "']");
+        waitForClickable(dayLocator).click();
+    }
+
+
+    public void pilihKewarganegaraan1() {
+        List<WebElement> kewarganegaraanList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(kewarganegaraanFormLocator));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", kewarganegaraanList.get(0));
+        kewarganegaraanList.get(2).click();
+        sleep(500);
+        waitForClickable(negaraPilihanLocator).click();
+    }
+
+    public void setTanggalLahir1() {
+        clickbirthForm1();
+        sleep(1000);
+        clickBulanLahir1();
+        clickTahunLahir1();
+        clickTanggalLahir1();
+    }
+
     public void setDeparture(String cityOrAirport) {
         clickDepartureField();
         waitForClickable(searchFieldLocator);
@@ -345,32 +481,41 @@ public class FlightLocator {
         selectFirstAirportMatch(cityOrAirport);
     }
 
-    public void selectFlightDate(String dateText) {
+    public void selectFlightDateOneWay(String dateText) {
         clickFlightCalendar();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy EEEE", new Locale("id", "ID"));
-        LocalDate flightTargetDate = LocalDate.parse(dateText, formatter);
+        sleep(1000);
 
-        while (true) {
-            String headerText = waitForVisible(flightCalendarMonthLocator).getText().trim();
-            DateTimeFormatter headerFormat = DateTimeFormatter.ofPattern("MMMM yyyy", new Locale("id", "ID"));
-            LocalDate flightheaderDate = YearMonth.parse(headerText, headerFormat).atDay(1);
-
-            if (flightheaderDate.getYear() == flightTargetDate.getYear() &&
-                    flightheaderDate.getMonth() == flightTargetDate.getMonth()) {
-                break;
-            }
-            waitForClickable(flightCalendarNextButtonLocator).click();
-        }
-        String fullDateText = flightTargetDate.format(formatter);
-        By flightDayLocator = By.xpath("//span[@aria-label='" + fullDateText + "']");
-        waitForClickable(flightDayLocator).click();
+        LocalDate departureDate = LocalDate.parse(dateText, formatter);
+        selectSingleDate(departureDate);
     }
 
-    public void selectFlightCardNoInsurance() {
+    public void clickRoundTripButton() {
+        waitForClickable(roundTripBtnLocator).click();
+    }
+
+   public void selectDFlightDateRoundTrip(String departureDateText, String returnDateText) {
+        clickFlightCalendar();
+        sleep(1000);
+        LocalDate departureDate = LocalDate.parse(departureDateText, formatter);
+        LocalDate returnDate = LocalDate.parse(returnDateText, formatter);
+        selectSingleDate(departureDate);
+        selectSingleDate(returnDate);
+   }
+
+    public void selectFlightCard() {
         waitForClickable(findFlightButtonLocator).click();
         sleep(3000);
         flightCard1();
         selectFareCard();
+    }
+
+    public void selectFlightCards() {
+        waitForClickable(findFlightButtonLocator).click();
+        sleep(3000);
+
+    }
+
+    public void rejectFlightProtection() {
         clickNggaDulu();
     }
 
@@ -380,4 +525,31 @@ public class FlightLocator {
         noTlpPemesan("081280135417");
         emailPemesan("hsnva@gmail.com");
     }
+
+    public void detailPenumpang1() {
+        scrollSamaDgnPemesan();
+        clickSamaDgnPemesanBtn();
+//        setTanggalLahir1();
+//        clickSimpanBtn();
+//        pilihKewarganegaraan1();
+    }
+
+    public void batalkanAsuransi() {
+        scrollAsuransiBtn();
+        expBtn1();
+    }
+
+    public void lanjutBayar() {
+        scrollLanjutBayarBtn();
+        clickLanjutBayarBtn();
+    }
+
+    public void lanjutKePembayaran() {
+        clickLanjutKePembayaranBtn();
+    }
+
+    public void validatePaymentPage() {
+        isVisible(bcaVirtualAccountLocator);
+    }
+
 }
