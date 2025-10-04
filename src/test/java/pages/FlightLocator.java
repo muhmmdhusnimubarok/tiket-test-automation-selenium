@@ -512,7 +512,11 @@ public class FlightLocator {
     public void selectFlightCards() {
         waitForClickable(findFlightButtonLocator).click();
         sleep(3000);
-
+        WebElement flightCard = driver.findElement(flightCardLocator);
+        flightCard1();
+        wait.until(ExpectedConditions.stalenessOf(flightCard));
+        flightCard1();
+        selectFareCard();
     }
 
     public void rejectFlightProtection() {
@@ -529,9 +533,9 @@ public class FlightLocator {
     public void detailPenumpang1() {
         scrollSamaDgnPemesan();
         clickSamaDgnPemesanBtn();
-//        setTanggalLahir1();
-//        clickSimpanBtn();
-//        pilihKewarganegaraan1();
+        setTanggalLahir1();
+        clickSimpanBtn();
+        pilihKewarganegaraan1();
     }
 
     public void batalkanAsuransi() {

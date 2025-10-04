@@ -43,6 +43,11 @@ public class FlightSteps {
         Hooks.getFlight().selectFlightCard();
    }
 
+   @When("^select an available airlines$")
+   public void select_an_available_airlines() {
+        Hooks.getFlight().selectFlightCards();
+   }
+
    @When("^reject flight disturbance protection$")
    public void reject_flight_disturbance_protection() {
         Hooks.getFlight().rejectFlightProtection();
