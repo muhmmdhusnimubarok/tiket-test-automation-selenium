@@ -259,8 +259,12 @@ public class FlightLocator {
         sleep(1000);
     }
 
-    private void clickNggaDulu() {
+    private void clickNggakDulu() {
         waitForClickable(nggakDuluDehLocator).click();
+    }
+
+    private void clickLindungiPenerbanganMu() {
+        waitForClickable(lindungiPenerbanganMuLocator).click();
     }
 
     private void namaPemesan(String nama) {
@@ -502,7 +506,6 @@ public class FlightLocator {
     public void selectFlightDateOneWay(String dateText) {
         clickFlightCalendar();
         sleep(1000);
-
         LocalDate departureDate = LocalDate.parse(dateText, formatter);
         selectSingleDate(departureDate);
     }
@@ -520,58 +523,97 @@ public class FlightLocator {
         selectSingleDate(returnDate);
    }
 
-    public void selectFlightCard() {
+   public void selectFlightClass(String flightClass) {
+        clickPassengerForm();
+        sleep(1000);
+        By classLocator;
+
+        switch (flightClass) {
+            case "Ekonomi":
+                classLocator = economyClassLocator;
+                break;
+            case "Premium Ekonomi":
+                classLocator = premiumEconomyClassLocator;
+                break;
+            case "Bisnis":
+                classLocator = businessClassLocator;
+                break;
+            case "First":
+                classLocator = firstClassLocator;
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+        waitForClickable(classLocator).click();
+        waitForClickable(submitPassengerDetailLocator).click();
+   }
+
+   public void selectFlightCard() {
         waitForClickable(findFlightButtonLocator).click();
         sleep(3000);
         flightCard1();
         selectFareCard();
-    }
+   }
 
-    public void selectFlightCards() {
-        waitForClickable(findFlightButtonLocator).click();
-        sleep(3000);
-        WebElement flightCard = driver.findElement(flightCardLocator);
-        flightCard1();
-        wait.until(ExpectedConditions.stalenessOf(flightCard));
-        flightCard1();
-        selectFareCard();
-    }
+   public void selectFlightCards() {
+       waitForClickable(findFlightButtonLocator).click();
+       sleep(3000);
+       WebElement flightCard = driver.findElement(flightCardLocator);
+       flightCard1();
+       wait.until(ExpectedConditions.stalenessOf(flightCard));
+       sleep(3000);
+       flightCard1();
+       selectFareCard();
+   }
 
-    public void rejectFlightProtection() {
-        clickNggaDulu();
-    }
+   public void rejectFlightProtection() {
+       clickNggakDulu();
+   }
 
-    public void detailPemesan() {
-        radioBtnTuan1();
-        namaPemesan("Muhammad Husni Mubarok");
-        noTlpPemesan("081280135417");
-        emailPemesan("hsnva@gmail.com");
-    }
+   public void acceptFlightProtection() {
+       clickLindungiPenerbanganMu();
+   }
 
-    public void detailPenumpang1() {
-        scrollSamaDgnPemesan();
-        clickSamaDgnPemesanBtn();
-        setTanggalLahir1();
-        clickSimpanBtn();
-        pilihKewarganegaraan1();
-    }
+   public void detailPemesan() {
+       radioBtnTuan1();
+       namaPemesan("Muhammad Husni Mubarok");
+       noTlpPemesan("081280135417");
+       emailPemesan("hsnva@gmail.com");
+   }
 
-    public void batalkanAsuransi() {
-        scrollAsuransiBtn();
-        expBtn1();
-    }
+   public void detailPenumpang1() {
+       scrollSamaDgnPemesan();
+       clickSamaDgnPemesanBtn();
+//       setTanggalLahir1();
+//       clickSimpanBtn();
+//       pilihKewarganegaraan1();
+   }
 
-    public void lanjutBayar() {
-        scrollLanjutBayarBtn();
-        clickLanjutBayarBtn();
-    }
+   public void batalkanAsuransi() {
+       scrollAsuransiBtn1();
+       expBtn1();
+   }
 
-    public void lanjutKePembayaran() {
-        clickLanjutKePembayaranBtn();
-    }
+   public void tambahkanAsuransi() {
+       scrollAsuransiBtn1();
+       expBtn2();
+       expBtn3();
+       scrollAsuransiBtn4();
+       expBtn4();
+       expBtn5();
+   }
 
-    public void validatePaymentPage() {
-        isVisible(bcaVirtualAccountLocator);
-    }
+   public void lanjutBayar() {
+       scrollLanjutBayarBtn();
+       clickLanjutBayarBtn();
+   }
+
+   public void lanjutKePembayaran() {
+       clickLanjutKePembayaranBtn();
+   }
+
+   public void validatePaymentPage() {
+       cekPaymentUrl();
+   }
 
 }

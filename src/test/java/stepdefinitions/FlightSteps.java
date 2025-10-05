@@ -3,7 +3,6 @@ package stepdefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.messages.types.Hook;
 import utils.BrowserDriver;
 import utils.ConfigReader;
 import utils.Hooks;
@@ -94,11 +93,6 @@ public class FlightSteps {
    @When("^select round trip$")
    public void select_round_trip() {
         Hooks.getFlight().clickRoundTripButton();
-   }
-
-   @When("^set (.*) of flight and (.*) of flight$")
-   public void set_departuredate_of_flight_and_returndate_of_flight(String departureDate, String returnDate) {
-        Hooks.getFlight().selectDFlightDateRoundTrip(departureDate, returnDate);
    }
 
 
