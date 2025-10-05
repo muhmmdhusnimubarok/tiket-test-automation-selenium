@@ -38,6 +38,16 @@ public class FlightSteps {
         Hooks.getFlight().selectFlightDateOneWay(date);
    }
 
+   @When("^set (.*) of flight and (.*) of flight$")
+   public void set_departuredate_of_flight_and_returndate_of_flight(String departureDate, String returnDate) {
+       Hooks.getFlight().selectDFlightDateRoundTrip(departureDate, returnDate);
+   }
+
+   @When("^set flight class to (.*)$")
+   public void set_flight_class_to(String flightClass) {
+       Hooks.getFlight().selectFlightClass(flightClass);
+   }
+
    @When("^select an available airline$")
    public void select_an_available_airlline() {
         Hooks.getFlight().selectFlightCard();
@@ -53,11 +63,26 @@ public class FlightSteps {
         Hooks.getFlight().rejectFlightProtection();
    }
 
+   @When("^accept flight disturbance protection$")
+   public void accept_flight_disturbance_protection() {
+        Hooks.getFlight().acceptFlightProtection();
+   }
+
    @When("^submit personal information$")
    public void submit_personal_information() {
         Hooks.getFlight().detailPemesan();
         Hooks.getFlight().detailPenumpang1();
-        Hooks.getFlight().batalkanAsuransi();
+   }
+
+   @When("^cancel insurance$")
+   public void cancel_insurance() {
+       Hooks.getFlight().batalkanAsuransi();
+       Hooks.getFlight().lanjutBayar();
+   }
+
+   @When("^add insurance$")
+   public void add_insurance() {
+        Hooks.getFlight().tambahkanAsuransi();
         Hooks.getFlight().lanjutBayar();
    }
 

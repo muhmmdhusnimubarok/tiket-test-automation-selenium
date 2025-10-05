@@ -40,6 +40,7 @@ public class FlightLocator {
     private final By flightCardLocator = By.xpath("//div[@data-testid='srp-flight-card']");
     private final By fareCardLocator = By.xpath("//button[normalize-space()='Pilih']");
     private final By nggakDuluDehLocator = By.xpath("//button[@data-testid='popup-button-secondary']");
+    private final By lindungiPenerbanganMuLocator = By.xpath("//button[@data-testid='popup-button-primary']");
     private final By extraProtectionButtonLocator = By.cssSelector("button[data-testid='btn-add']");
     private final By radioBtnTuanLocator = By.xpath("//span[normalize-space()='Tuan']");
     private final By radioBtnNyonyaLocator = By.xpath("//span[normalize-space()='Nyonya']");
@@ -84,6 +85,7 @@ public class FlightLocator {
     private static final int EXP_BUTTON_2 = 1;
     private static final int EXP_BUTTON_3 = 2;
     private static final int EXP_BUTTON_4 = 3;
+    private static final int EXP_BUTTON_5 = 4;
 
     private static final int TUAN_RADIOBTN_1 = 0;
     private static final int TUAN_RADIOBTN_2 = 1;
@@ -180,6 +182,8 @@ public class FlightLocator {
     private void expButton2() { clickExpButton(EXP_BUTTON_2); }
     private void expButton3() { clickExpButton(EXP_BUTTON_3); }
     private void expButton4() { clickExpButton(EXP_BUTTON_4); }
+    private void expButton5() { clickExpButton(EXP_BUTTON_5); }
+
 
     private void radioBtnTuan1() { clickRadioBtnTuan(TUAN_RADIOBTN_1); }
     private void radioBtnTuan2() { clickRadioBtnTuan(TUAN_RADIOBTN_2); }
@@ -212,6 +216,8 @@ public class FlightLocator {
     private void expBtn2() { clickExpButton(EXP_BUTTON_2); }
     private void expBtn3() { clickExpButton(EXP_BUTTON_3); }
     private void expBtn4() { clickExpButton(EXP_BUTTON_4); }
+    private void expBtn5() { clickExpButton(EXP_BUTTON_5); }
+
 
 
 
@@ -308,9 +314,15 @@ public class FlightLocator {
         tanggalLahir1.click();
     }
 
-    private void scrollAsuransiBtn() {
+    private void scrollAsuransiBtn1() {
         List<WebElement> expBtnList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(extraProtectionButtonLocator));
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", expBtnList.get(0));
+        sleep(1500);
+    }
+
+    private void scrollAsuransiBtn4() {
+        List<WebElement> expBtnList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(extraProtectionButtonLocator));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", expBtnList.get(3));
         sleep(1500);
     }
 
@@ -448,6 +460,12 @@ public class FlightLocator {
         String fullDateText = targetDate.format(formatter);
         By dayLocator = By.xpath("//span[@aria-label='" + fullDateText + "']");
         waitForClickable(dayLocator).click();
+    }
+
+    private boolean cekPaymentUrl() {
+        String currentUrl = driver.getCurrentUrl();
+        boolean paymentUrl = currentUrl.contains("/payment");
+        return paymentUrl;
     }
 
 
