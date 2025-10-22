@@ -38,8 +38,4 @@ public class BrowserDriver {
             THREAD_DRIVER.remove();
         }
     }
-
-    public static void setKeepBrowserOpen(boolean keepOpen) {
-        keepBrowserOpen = keepOpen;
-    }
 }

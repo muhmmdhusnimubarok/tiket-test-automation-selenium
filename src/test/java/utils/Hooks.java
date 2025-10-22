@@ -5,6 +5,7 @@ import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import pages.FlightLocator;
 
 import java.time.Duration;
@@ -51,10 +52,10 @@ public class Hooks {
         return pages.flight;
     }
 
-    private static class PageObjects {
+    public static class PageObjects {
         final FlightLocator flight;
 
-        PageObjects(org.openqa.selenium.WebDriver driver) {
+        public PageObjects(WebDriver driver) {
             this.flight = new FlightLocator(driver);
         }
     }
