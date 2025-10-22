@@ -28,8 +28,7 @@ public class FlightSteps {
     @When("^choose (.*) and (.*)$")
     public void choose_departure_and_destination(String departure, String destination) {
         System.out.println("DEBUG: choose_departure_and_destination called");
-        Hooks.getFlight().setDeparture(departure);
-        Hooks.getFlight().setDestination(destination);
+        Hooks.getFlight().setDepartureAndDestination(departure, destination);
     }
 
    @When("^select (.*) of flight$")
@@ -57,37 +56,21 @@ public class FlightSteps {
         Hooks.getFlight().selectFlightCards();
    }
 
-   @When("^reject flight disturbance protection$")
-   public void reject_flight_disturbance_protection() {
-        Hooks.getFlight().rejectFlightProtection();
-   }
-
-   @When("^accept flight disturbance protection$")
-   public void accept_flight_disturbance_protection() {
-        Hooks.getFlight().acceptFlightProtection();
-   }
-
    @When("^submit personal information$")
    public void submit_personal_information() {
         Hooks.getFlight().detailPemesan();
         Hooks.getFlight().detailPenumpang1();
    }
 
-   @When("^cancel insurance$")
-   public void cancel_insurance() {
-       Hooks.getFlight().batalkanAsuransi();
-       Hooks.getFlight().lanjutBayar();
-   }
-
    @When("^add insurance$")
    public void add_insurance() {
         Hooks.getFlight().tambahkanAsuransi();
-        Hooks.getFlight().lanjutBayar();
+
    }
 
    @When("^confirm order$")
    public void confirm_order() {
-        Hooks.getFlight().lanjutKePembayaran();
+       Hooks.getFlight().lanjutBayar();
    }
 
    @When("^select round trip$")
@@ -103,6 +86,5 @@ public class FlightSteps {
    public void validate_to_payment_page() {
         Hooks.getFlight().validatePaymentPage();
    }
-
 
 }
