@@ -31,6 +31,11 @@ public class FlightSteps {
         Hooks.getFlight().setDepartureAndDestination(departure, destination);
     }
 
+    @When("^select round trip$")
+    public void select_round_trip() {
+        Hooks.getFlight().clickRoundTripButton();
+    }
+
    @When("^select (.*) of flight$")
    public void select_date_of_flight(String date) {
         Hooks.getFlight().selectFlightDateOneWay(date);
@@ -38,12 +43,12 @@ public class FlightSteps {
 
    @When("^set (.*) of flight and (.*) of flight$")
    public void set_departuredate_of_flight_and_returndate_of_flight(String departureDate, String returnDate) {
-       Hooks.getFlight().selectDFlightDateRoundTrip(departureDate, returnDate);
+        Hooks.getFlight().selectDFlightDateRoundTrip(departureDate, returnDate);
    }
 
    @When("^set flight class to (.*)$")
    public void set_flight_class_to(String flightClass) {
-       Hooks.getFlight().selectFlightClass(flightClass);
+        Hooks.getFlight().selectFlightClass(flightClass);
    }
 
    @When("^select an available airline$")
@@ -62,20 +67,30 @@ public class FlightSteps {
         Hooks.getFlight().detailPenumpang1();
    }
 
-   @When("^add insurance$")
-   public void add_insurance() {
+   @When("^add extra luggage$")
+   public void extra_luggage() {
+        Hooks.getFlight().tambahkanBagasi();
+   }
+
+   @When("^add food$")
+   public void add_food() {
+        Hooks.getFlight().tambahkanMakanan();
+   }
+
+   @When("^choose seat$")
+   public void choose_seat() {
+        Hooks.getFlight().pilihKursi();
+   }
+
+    @When("^add insurance$")
+    public void add_insurance() {
         Hooks.getFlight().tambahkanAsuransi();
 
-   }
+    }
 
    @When("^confirm order$")
    public void confirm_order() {
-       Hooks.getFlight().lanjutBayar();
-   }
-
-   @When("^select round trip$")
-   public void select_round_trip() {
-        Hooks.getFlight().clickRoundTripButton();
+        Hooks.getFlight().lanjutBayar();
    }
 
 
