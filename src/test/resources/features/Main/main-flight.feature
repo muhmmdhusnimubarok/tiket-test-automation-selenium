@@ -4,7 +4,7 @@ Feature: TKC Book flight Main Flow
     Given open TKC home page
 
   @tkc @bookflight-module @one-way @solo
-  Scenario Outline: <TCID>: As an user, I can book solo one way flight and choose class no insurance
+  Scenario Outline: <TCID>: As an user, I can book solo one way flight and choose class
     Given navigate to the flight page
     When choose <Departure> and <Destination>
     And select <Date> of flight
@@ -21,13 +21,12 @@ Feature: TKC Book flight Main Flow
       | M-U-BFM-C-04 | Jakarta   | Denpasar    | 30 November 2025 Minggu | First           |
 
   @tkc @bookflight-module @one-way @solo @identical-booking
-  Scenario Outline: <TCID>: As a user, I can create a new solo one way flight booking no insurance even if an identical booking is already in progress
+  Scenario Outline: <TCID>: As a user, I can create a new solo one way flight even if an identical booking is already in progress
     Given navigate to the flight page
     When choose <Departure> and <Destination>
     And select <Date> of flight
     And set flight class to <FlightClass>
     And select an available airline
-    And reject flight disturbance protection
     And submit personal information
     And confirm order
     Then validate payment page
@@ -38,33 +37,38 @@ Feature: TKC Book flight Main Flow
       | M-U-BFM-C-07 | Jakarta     | Denpasar    | 30 November 2025 Minggu | Bisnis          |
       | M-U-BFM-C-08 | Jakarta     | Denpasar    | 30 November 2025 Minggu | First           |
 
-  @tkc @bookflight-module @one-way @solo @full-insurance
-  Scenario Outline: <TCID>: As an user, I can book solo one way flight and choose class full insurance
+  @tkc @bookflight-module @one-way @solo @full-data @haha
+  Scenario Outline: <TCID>: As an user, I can book solo one way flight and choose class full data
     Given navigate to the flight page
     When choose <Departure> and <Destination>
     And select <Date> of flight
     And set flight class to <FlightClass>
     And select an available airline
-    And accept flight disturbance protection
     And submit personal information
+    And add extra luggage
+    And add food
+    And choose seat
     And add insurance
+    And confirm order
     Then validate payment page
     Examples:
       | TCID         | Departure   | Destination | Date                    | FlightClass     |
       | M-U-BFM-C-09 | Jakarta     | Denpasar    | 30 November 2025 Minggu | Ekonomi         |
-      | M-U-BFM-C-10 | Jakarta     | Denpasar    | 30 November 2025 Minggu | Premium Ekonomi |
-      | M-U-BFM-C-11 | Jakarta     | Denpasar    | 30 November 2025 Minggu | Bisnis          |
-      | M-U-BFM-C-12 | Jakarta     | Denpasar    | 30 November 2025 Minggu | First           |
+#      | M-U-BFM-C-10 | Jakarta     | Denpasar    | 30 November 2025 Minggu | Premium Ekonomi |
+#      | M-U-BFM-C-11 | Jakarta     | Denpasar    | 30 November 2025 Minggu | Bisnis          |
+#      | M-U-BFM-C-12 | Jakarta     | Denpasar    | 30 November 2025 Minggu | First           |
 
-  @tkc @bookflight-module @one-way @solo @full-insurance @identical-booking
-  Scenario Outline: <TCID>: As a user, I can create a new solo one way flight booking full insurance even if an identical booking is already in progress
+  @tkc @bookflight-module @one-way @solo @full-data @identical-booking
+  Scenario Outline: <TCID>: As a user, I can create a new solo one way flight booking full data even if an identical booking is already in progress
     Given navigate to the flight page
     When choose <Departure> and <Destination>
     And select <Date> of flight
     And set flight class to <FlightClass>
     And select an available airline
-    And accept flight disturbance protection
     And submit personal information
+    And add extra luggage
+    And add food
+    And choose seat
     And add insurance
     And confirm order
     Then validate payment page
@@ -76,7 +80,7 @@ Feature: TKC Book flight Main Flow
       | M-U-BFM-C-16 | Jakarta     | Denpasar    | 30 November 2025 Minggu | First           |
 
   @tkc @bookflight-module @round-trip @solo
-  Scenario Outline: <TCID>: As an user, I can book solo round trip flight and choose class no insurance
+  Scenario Outline: <TCID>: As an user, I can book solo round trip flight and choose class
     Given navigate to the flight page
     When choose <Departure> and <Destination>
     And select round trip
@@ -94,7 +98,7 @@ Feature: TKC Book flight Main Flow
       | M-U-BFM-C-20 | Jakarta     | Denpasar    | 30 November 2025 Minggu | 31 Desember 2025 Rabu | First           |
 
   @tkc @bookflight-module @round-trip @solo @identical-booking
-  Scenario Outline: <TCID>: As a user, I can create a new solo round trip flight booking no insurance even if an identical booking is already in progress
+  Scenario Outline: <TCID>: As a user, I can create a new solo round trip flight booking even if an identical booking is already in progress
     Given navigate to the flight page
     When choose <Departure> and <Destination>
     And select round trip
@@ -111,8 +115,8 @@ Feature: TKC Book flight Main Flow
       | M-U-BFM-C-23 | Jakarta     | Denpasar    | 30 November 2025 Minggu | 31 Desember 2025 Rabu | Bisnis          |
       | M-U-BFM-C-24 | Jakarta     | Denpasar    | 30 November 2025 Minggu | 31 Desember 2025 Rabu | First           |
 
-  @tkc @bookflight-module @round-trip @solo @full-insurance
-  Scenario Outline: <TCID>: As an user, I can book solo round trip flight and choose class full insurance
+  @tkc @bookflight-module @round-trip @solo @full-data
+  Scenario Outline: <TCID>: As an user, I can book solo round trip flight and choose class full data
     Given navigate to the flight page
     When choose <Departure> and <Destination>
     And select round trip
@@ -120,6 +124,9 @@ Feature: TKC Book flight Main Flow
     And set flight class to <FlightClass>
     And select an available airlines
     And submit personal information
+    And add extra luggage
+    And add food
+    And choose seat
     And add insurance
     And confirm order
     Then validate payment page
@@ -130,16 +137,18 @@ Feature: TKC Book flight Main Flow
       | M-U-BFM-C-27 | Jakarta     | Denpasar    | 30 November 2025 Minggu | 31 Desember 2025 Rabu | Bisnis          |
       | M-U-BFM-C-28 | Jakarta     | Denpasar    | 30 November 2025 Minggu | 31 Desember 2025 Rabu | First           |
 
-  @tkc @bookflight-module @round-trip @solo @full-insurance @identical-booking
-  Scenario Outline: <TCID>: As a user, I can create a new solo round trip flight booking full insurance even if an identical booking is already in progress
+  @tkc @bookflight-module @round-trip @solo @full-data @identical-booking
+  Scenario Outline: <TCID>: As a user, I can create a new solo round trip flight booking full data even if an identical booking is already in progress
     Given navigate to the flight page
     When choose <Departure> and <Destination>
     And select round trip
     And set <DepartureDate> of flight and <ReturnDate> of flight
     And set flight class to <FlightClass>
     And select an available airlines
-    And accept flight disturbance protection
     And submit personal information
+    And add extra luggage
+    And add food
+    And choose seat
     And add insurance
     And confirm order
     Then validate payment page

@@ -98,7 +98,7 @@ public class FlightLocator extends HelpersFile{
         waitForClickable(By.xpath("(//div[@data-testid='srp-flight-card'])[1]")).click();
         sleep(2000);
         waitForClickable(By.xpath("(//button[normalize-space()='Pilih'])[1]")).click();
-       waitForClickable(By.xpath("//button[@data-testid='popup-button-primary']")).click();
+        waitForClickable(By.xpath("//button[@data-testid='popup-button-primary']")).click();
    }
 
    public void selectFlightCards() {
@@ -227,17 +227,48 @@ public class FlightLocator extends HelpersFile{
        }
    }
 
+   public void tambahkanBagasi() {
+       WebElement tmbhBagasiBtn1 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//button[@data-testid='add'])[1]")));
+       ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView({block: 'start'});", tmbhBagasiBtn1);
+       waitForClickable(By.xpath("(//button[@data-testid='add'])[1]")).click();
+       waitForClickable(By.xpath("(//button[.//span[normalize-space()='Pilih']])[1]")).click();
+       waitForClickable(By.xpath("//div[contains(@class,'BaggageSelection_option__')][.//p[normalize-space()='5 Kg']]")).click();
+       waitForClickable(By.xpath("//button[normalize-space()='Simpan']")).click();
+       waitForClickable(By.xpath("//button[normalize-space()='Selesai Pilih Bagasi']")).click();
+   }
+
+   public void tambahkanMakanan() {
+       waitForClickable(By.xpath("(//button[@data-testid='add'])[1]")).click();
+       sleep(700);
+       waitForClickable(By.xpath("(//button[.//span[normalize-space()='Pilih']])[1]")).click();
+       sleep(700);
+       waitForClickable(By.xpath("(//div[contains(@class,'AddonsMultiPicker_picker_description__')])[1]")).click();
+       waitForClickable(By.xpath("//button[normalize-space()='Simpan']")).click();
+       waitForClickable(By.xpath("//button[normalize-space()='Selesai Pilih Makanan']")).click();
+   }
+
+   public void pilihKursi() {
+       waitForClickable(By.xpath("(//button[@data-testid='add'])[1]")).click();
+       waitForClickable(By.xpath("(//button[.//span[normalize-space()='Pilih']])[1]")).click();
+       WebElement seatContainer = driver.findElement(By.xpath("//section[contains(@class, 'SeatSelection_seat_map_container_')]"));
+       WebElement seatTarget = driver.findElement(By.xpath("(//div[contains(@class,'Seat_seat__') and contains(@style,'background-color: rgb(0, 154, 255)')])[133]"));
+       ((JavascriptExecutor)driver).executeScript("arguments[0].scrollTop = arguments[1].offsetTop;", seatContainer, seatTarget);
+       sleep(700);
+       waitForClickable(By.xpath("(//div[contains(@class,'Seat_seat__') and contains(@style,'background-color: rgb(0, 154, 255)')])[133]")).click();
+       waitForClickable(By.xpath("//button[normalize-space()='Simpan']")).click();
+       waitForClickable(By.xpath("//button[normalize-space()='Selesai Pilih Kursi']")).click();
+   }
+
    public void tambahkanAsuransi() {
-       WebElement expBtn1 = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("(button[data-testid='btn-add'])[1]")));
-       ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", expBtn1);
-       sleep(1500);
-       waitForClickable(By.cssSelector("(button[data-testid='btn-add'])[2]")).click();
-       waitForClickable(By.cssSelector("(button[data-testid='btn-add'])[3]")).click();
-       WebElement expBtn4 = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("(button[data-testid='btn-add'])[4]")));
-       ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", expBtn4);
-       sleep(1500);
-       waitForClickable(By.cssSelector("(button[data-testid='btn-add'])[4]")).click();
-       waitForClickable(By.cssSelector("(button[data-testid='btn-add'])[5]")).click();
+       WebElement expBtn2 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//button[@data-testid='btn-add'])[2]")));
+       ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", expBtn2);
+       sleep(700);
+       waitForClickable(By.xpath("(//button[@data-testid='btn-add'])[2]")).click();
+       WebElement expBtn3 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//button[@data-testid='btn-add'])[3]")));
+       ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", expBtn3);
+       sleep(700);
+       waitForClickable(By.xpath("(//button[@data-testid='btn-add'])[3]")).click();
+       waitForClickable(By.xpath("(//button[@data-testid='btn-add'])[4]")).click();
    }
 
    public void lanjutBayar() {
