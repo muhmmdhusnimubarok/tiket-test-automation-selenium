@@ -1,25 +1,23 @@
 package utils;
 
+import io.cucumber.java.an.E;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
+
 
 public class HelpersFile {
 
     public final WebDriver driver;
     public final WebDriverWait wait;
 
-
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy EEEE", new Locale("id", "ID"));
-    public static final DateTimeFormatter headerFormat = DateTimeFormatter.ofPattern("MMMM yyyy", new Locale("id", "ID"));
 
     public HelpersFile(WebDriver driver) {
         this.driver = driver;
@@ -50,6 +48,18 @@ public class HelpersFile {
         driver.findElement(value).click();
     }
 
+    public void switchToNewTab() {
+        String currentTab = driver.getWindowHandle();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(d -> driver.getWindowHandles().size() > 1);
+        for (String handle : driver.getWindowHandles()) {
+            if (!handle.equals(currentTab)) {
+                driver.switchTo().window(handle);
+                break;
+            }
+        }
+    }
+
     public String getText(By locator) {
         return waitForVisible(locator).getText();
     }
@@ -62,21 +72,20 @@ public class HelpersFile {
         }
     }
 
-    public void selectSingleDate(LocalDate targetDate) {
-        while (true) {
-            String headerText = waitForVisible(By.xpath("//div[contains(@class,'CalendarDesktop_month_heading_container')]/h2")).getText().trim();
-            LocalDate headerDate = YearMonth.parse(headerText, headerFormat).atDay(1);
+    public void scrollIntoView(WebElement el) {
+        try {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", el);
+        } catch (Exception ignored) {}
+    }
 
-            if (headerDate.getYear() == targetDate.getYear() &&
-                    headerDate.getMonth() == targetDate.getMonth()) {
-                break;
-            }
-            waitForClickable(By.xpath("//button[@aria-label='Bulan berikutnya']")).click();
-            sleep(500);
-        }
-        String fullDateText = targetDate.format(formatter);
-        By dayLocator = By.xpath("//span[@aria-label='" + fullDateText + "']");
-        waitForClickable(dayLocator).click();
+    public WebElement waitUntilVisible(By locator, int timeoutSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    public boolean waitForInvisibility(By locator, int timeoutSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
+        return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
     public boolean checkPaymentPage(String text) {
@@ -85,5 +94,9 @@ public class HelpersFile {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public void validatePaymentPage() {
+        checkPaymentPage("/payment");
     }
 }
