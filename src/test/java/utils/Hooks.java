@@ -7,6 +7,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import pages.FlightLocator;
+import pages.HotelLocator;
 
 import java.time.Duration;
 
@@ -24,7 +25,6 @@ public class Hooks {
         } catch (Exception ignored) {
 
         }
-
         PAGES.set(new PageObjects(BrowserDriver.getDriver()));
     }
 
@@ -38,25 +38,36 @@ public class Hooks {
             }
         } catch (Exception ignored) {
 
+        } finally {
+            BrowserDriver.quitBrowser();
+            PAGES.remove();
         }
-        BrowserDriver.quitBrowser();
-       PAGES.remove();
     }
 
-    public static FlightLocator getFlight() {
+    private static PageObjects getPages() {
         PageObjects pages = PAGES.get();
         if (pages == null) {
             PAGES.set(new PageObjects(BrowserDriver.getDriver()));
             pages = PAGES.get();
         }
-        return pages.flight;
+        return pages;
+    }
+
+    public static FlightLocator getFlight() {
+        return getPages().flight;
+    }
+
+    public static HotelLocator getHotel() {
+        return getPages().hotel;
     }
 
     public static class PageObjects {
-        final FlightLocator flight;
+        public final FlightLocator flight;
+        public final HotelLocator hotel;
 
         public PageObjects(WebDriver driver) {
             this.flight = new FlightLocator(driver);
+            this.hotel  = new HotelLocator(driver);
         }
     }
 }

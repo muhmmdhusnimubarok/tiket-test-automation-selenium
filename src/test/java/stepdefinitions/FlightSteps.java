@@ -3,18 +3,12 @@ package stepdefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import utils.BrowserDriver;
-import utils.ConfigReader;
+
 import utils.Hooks;
 
 public class FlightSteps {
 
     //Given Section
-
-    @Given("^open TKC home page$")
-    public void open_TKC_home_page() {
-        BrowserDriver.getDriver().get(ConfigReader.getUrl("TKC"));
-    }
 
     @Given("^navigate to the flight page$")
     public void navigate_to_the_flight_page() {
@@ -51,6 +45,11 @@ public class FlightSteps {
         Hooks.getFlight().selectFlightClass(flightClass);
    }
 
+   @When("^set number of passengers and flight class to (.*)$")
+   public void set_number_of_passengers_and_flight_class_to(String flightClass) {
+       Hooks.getFlight().setPassangersAndFlightClass(flightClass);
+   }
+
    @When("^select an available airline$")
    public void select_an_available_airlline() {
         Hooks.getFlight().selectFlightCard();
@@ -61,25 +60,48 @@ public class FlightSteps {
         Hooks.getFlight().selectFlightCards();
    }
 
-   @When("^submit personal information$")
-   public void submit_personal_information() {
+   @When("^submit passenger personal informations$")
+   public void submit_passenger_personal_informations() {
         Hooks.getFlight().detailPemesan();
         Hooks.getFlight().detailPenumpang1();
    }
 
+   @When("^submit personal informations for all passengers$")
+   public void submit_personal_informations_for_all_passengers() {
+        Hooks.getFlight().detailPemesan();
+        Hooks.getFlight().detailPenumpang1();
+        Hooks.getFlight().detailPenumpang2();
+        Hooks.getFlight().detailPenumpang3();
+   }
+
    @When("^add extra luggage$")
    public void extra_luggage() {
-        Hooks.getFlight().tambahkanBagasi();
+        Hooks.getFlight().tambahkanBagasiSolo();
+   }
+
+   @When("^add extra luggage for all passengers$")
+   public void add_extra_luggage_for_all_passengers() {
+        Hooks.getFlight().tambahkanBagasiGroup();
    }
 
    @When("^add food$")
    public void add_food() {
-        Hooks.getFlight().tambahkanMakanan();
+        Hooks.getFlight().tambahkanMakananSolo();
+   }
+
+   @When("^add food for all passengers$")
+   public void add_food_for_all_passengers() {
+        Hooks.getFlight().tambahkanMakananGroup();
    }
 
    @When("^choose seat$")
    public void choose_seat() {
-        Hooks.getFlight().pilihKursi();
+        Hooks.getFlight().pilihKursiSolo();
+   }
+
+   @When("^choose seat for all passengers$")
+   public void choose_seat_for_all_passengers() {
+        Hooks.getFlight().pilihKursiGroup();
    }
 
     @When("^add insurance$")
@@ -88,8 +110,8 @@ public class FlightSteps {
 
     }
 
-   @When("^confirm order$")
-   public void confirm_order() {
+   @When("^confirm book flight order$")
+   public void confirm_book_flight_order() {
         Hooks.getFlight().lanjutBayar();
    }
 
